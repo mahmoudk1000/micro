@@ -4,7 +4,7 @@
 
 ### Problem #1
 
-#### description
+#### Description
 
 When dockeriing the microservice app. this happens
 
@@ -19,6 +19,6 @@ Traceback (most recent call last):
 ImportError: cannot import name 'url_quote' from 'werkzeug.urls' (/usr/local/lib/python3.9/site-packages/werkzeug/urls.py)
 ```
 
-#### fix
+#### Fix
 
 Lock `Werkzeug` to version `2.2.2` in `requirements.txt`

@@ -1,0 +1,35 @@
+---
+name: build
+on:
+  push:
+    branches: [main]
+    tags: [v*]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: mahmoudk1000
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and Push Docker Image
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |-
+          docker build -f Dockerfile . --tag ghcr.io/mahmoudk1000/micro:$IMAGE_TAG
+          docker push ghcr.io/mahmoudk1000/micro:$IMAGE_TAG
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Placeholder
+        run: |-
+          echo "deploy..."
